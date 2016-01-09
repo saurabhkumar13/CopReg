@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         display.getSize(size);
         final int height = size.y;
 
-        int secondsDelayed = 3;
+        int secondsDelayed = 1;
         //This animates the text on the entry view.
         new Handler().postDelayed(new Runnable() {
             public void run() {
