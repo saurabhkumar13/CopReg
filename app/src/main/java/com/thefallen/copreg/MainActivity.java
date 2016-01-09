@@ -27,15 +27,13 @@ public class MainActivity extends AppCompatActivity {
         final int height = size.y;
 
         int secondsDelayed = 3;
+        //This animates the text on the entry view.
         new Handler().postDelayed(new Runnable() {
             public void run() {
 
-
-                // Prepare the View for the animation
                 view.setVisibility(View.VISIBLE);
                 view.setAlpha(1.0f);
 
-                // Start the animation
                 view.animate()
                         .translationY(view.getHeight())
                         .alpha(1.0f)
