@@ -12,7 +12,7 @@
     tools:context="com.thefallen.copreg.MainActivity">
 
     <TextView
-        android:text="Cop Reg"
+        android:text="Cop Registration"
         android:id="@+id/logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
