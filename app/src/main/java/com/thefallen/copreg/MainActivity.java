@@ -1,13 +1,19 @@
 package com.thefallen.copreg;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Display;
 import android.view.View;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
-    private TextView view;
+
+    TextView view;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -15,18 +21,44 @@ public class MainActivity extends AppCompatActivity {
 
         view = (TextView) findViewById(R.id.logo);
 
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        final int height = size.y;
+
         int secondsDelayed = 3;
         new Handler().postDelayed(new Runnable() {
             public void run() {
+
+
                 // Prepare the View for the animation
                 view.setVisibility(View.VISIBLE);
-                view.setAlpha(0.0f);
+                view.setAlpha(1.0f);
 
                 // Start the animation
                 view.animate()
                         .translationY(view.getHeight())
-                        .alpha(1.0f);
+                        .alpha(1.0f)
+                        .setListener(new AnimatorListenerAdapter() {
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+                                super.onAnimationEnd(animation);
+                                view.animate()
+                                        .translationY(-height)
+                                        .alpha(0.0f)
+                                        .setListener(new AnimatorListenerAdapter() {
+                                            @Override
+                                            public void onAnimationEnd(Animator animation) {
+                                                super.onAnimationEnd(animation);
+                                                view.setVisibility(View.GONE);
+                                            }
+                                        });
+                            }
+                        });
+
             }
         }, secondsDelayed * 1000);
+
+
     }
 }
