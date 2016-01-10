@@ -1,26 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
-    android:background="@color/Accents200"
-    android:elevation="16dp"
-    android:orientation="vertical"
-    android:textColor="@color/Primary900"
-    android:visibility="gone"
+    android:layout_margin="@dimen/card_padding"
+    android:background="@color/colorAccent"
+    android:elevation="2dp"
+    android:orientation="horizontal"
+    android:padding="@dimen/card_padding"
+    android:textColor="@color/Primary800"
     >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="Name"
-        android:layout_gravity="center_horizontal"
-        android:textSize="40sp" />
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Email"
-        android:layout_gravity="center_horizontal"
-        android:textSize="40sp" />
+        android:layout_weight="1"
+        android:hint="Name"
+        android:scrollHorizontally="true"
+        android:singleLine="true"
+        android:textColorHint="@android:color/white"
+        android:textSize="16sp" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight=".4"
+        android:gravity="end"
+        android:hint="Entry Number"
+        android:singleLine="true"
+        android:textColorHint="@android:color/white"
+        android:textSize="12sp" />
 </LinearLayout>

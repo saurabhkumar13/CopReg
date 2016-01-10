@@ -5,41 +5,54 @@
     android:layout_height="match_parent"
     tools:context="com.thefallen.copreg.MainActivity">
 
-    <View
-        android:id="@+id/Overshoot"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:elevation="12dp"
-        android:background="@color/colorPrimary"
-        />
-
     <FrameLayout
+
         android:id="@+id/splashScreen"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorPrimary"
-        android:elevation="12dp"
+        android:elevation="16dp"
         >
 
         <pl.droidsonroids.gif.GifImageView
             android:id="@+id/logo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:src="@drawable/splashlogo2"
             />
     </FrameLayout>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="240dp">
     <include
         android:id="@+id/card1"
-        layout="@layout/card" />
+        layout="@layout/card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="@dimen/card_padding"
+        android:padding="@dimen/card_padding" />
 
     <include
         android:id="@+id/card2"
-        layout="@layout/card" />
+        layout="@layout/card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/card1"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="@dimen/card_padding"
+        android:padding="@dimen/card_padding" />
 
     <include
         android:id="@+id/card3"
-        layout="@layout/card" />
-
+        layout="@layout/card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/card2"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="@dimen/card_padding"
+        android:padding="@dimen/card_padding" />
+    </RelativeLayout>
 </FrameLayout>
