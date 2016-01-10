@@ -1,18 +1,19 @@
 package com.thefallen.copreg;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.animation.AnticipateInterpolator;
+import android.view.animation.AnticipateOvershootInterpolator;
+import android.widget.FrameLayout;
 
 import pl.droidsonroids.gif.GifImageView;
 
 public class MainActivity extends AppCompatActivity {
 
     GifImageView view;
+    FrameLayout splashScreen;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,9 +21,12 @@ public class MainActivity extends AppCompatActivity {
 
         //Gif view
         view = (GifImageView) findViewById(R.id.logo);
+        splashScreen = (FrameLayout) findViewById(R.id.splashScreen);
+        splashScreen.setTranslationY(-120);
 
         //in millis
         int splashDelay = 2400;
+        final int splashDuration = 1000;
 
         new Handler().postDelayed(new Runnable() {
 
@@ -34,17 +38,13 @@ public class MainActivity extends AppCompatActivity {
 
                 // Start the animation
                 //animate down
-                view.animate()
-                        .translationY(-view.getY() - view.getHeight())
-                        .setInterpolator(new AnticipateInterpolator(2))
-                        .setListener(new AnimatorListenerAdapter() {
-                            @Override
-                            public void onAnimationEnd(Animator animation) {
-                                super.onAnimationEnd(animation);
-                                view.setVisibility(View.GONE);
+                splashScreen.animate()
+                        .setDuration(splashDuration)
+                        .translationY(-splashScreen.getHeight() + 300)
+                        .setInterpolator(new AnticipateOvershootInterpolator(1));
                             }
-                        });
-            }
+//                        });
+//            }
         }, splashDelay);
     }
 }

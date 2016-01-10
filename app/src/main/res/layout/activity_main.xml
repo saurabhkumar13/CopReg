@@ -1,16 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
-    android:gravity="center"
     tools:context="com.thefallen.copreg.MainActivity">
 
+    <FrameLayout
+        android:id="@+id/splashScreen"
+        android:layout_width="match_parent"
+        android:layout_height="700dp"
+        android:background="@color/colorPrimary"
+        android:elevation="12dp">
     <pl.droidsonroids.gif.GifImageView
         android:id="@+id/logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:src="@drawable/splashlogo2"
         />
-</RelativeLayout>
+    </FrameLayout>
+
+    <include
+        android:id="@+id/card1"
+        layout="@layout/card" />
+
+    <include
+        android:id="@+id/card2"
+        layout="@layout/card" />
+
+    <include
+        android:id="@+id/card3"
+        layout="@layout/card" />
+
+</FrameLayout>
