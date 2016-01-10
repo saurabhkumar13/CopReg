@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#F15740</color>
+    <color name="colorPrimary">#009688</color>
     <color name="colorPrimaryDark">#00695C</color>
-    <color name="colorAccent">#F89923</color>
+    <color name="colorAccent">#ffab00</color>
 
     <!--  Color schema from bright to dark  -->
     <color name="Primary50">#E0F2F1</color>
@@ -16,8 +16,8 @@
     <color name="Primary800">#00695C</color>
     <color name="Primary900">#004D40</color>
     <!-- Accents -->
-    <color name="Accents100">#A7FFEB</color>
-    <color name="Accents200">#64FFDA</color>
-    <color name="Accents400">#1DE9B6</color>
-    <color name="Accents700">#00BFA5</color>
+    <color name="Accents100">#ffe57f</color>
+    <color name="Accents200">#ffd740</color>
+    <color name="Accents400">#ffc400</color>
+    <color name="Accents700">#ffab00</color>
 </resources>
