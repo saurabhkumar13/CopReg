@@ -4,31 +4,32 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
     android:layout_margin="@dimen/card_padding"
-    android:background="@color/colorAccent"
+    android:background="@drawable/round_rect_shape"
     android:elevation="2dp"
     android:orientation="horizontal"
     android:padding="@dimen/card_padding"
     android:textColor="@color/Primary800"
     >
 
-
-    <TextView
+    <EditText
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:layout_height="match_parent"
         android:hint="Name"
+        android:background="#00ffffff"
         android:scrollHorizontally="true"
         android:singleLine="true"
         android:textColorHint="@android:color/white"
         android:textSize="16sp" />
 
-    <TextView
+    <EditText
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
         android:layout_weight=".4"
-        android:gravity="end"
+        android:layout_height="match_parent"
+        android:background="#00ffffff"
         android:hint="Entry Number"
         android:singleLine="true"
         android:textColorHint="@android:color/white"
         android:textSize="12sp" />
+
 </LinearLayout>

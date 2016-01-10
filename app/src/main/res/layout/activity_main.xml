@@ -6,7 +6,6 @@
     tools:context="com.thefallen.copreg.MainActivity">
 
     <FrameLayout
-
         android:id="@+id/splashScreen"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -23,37 +22,15 @@
 
     </FrameLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="240dp">
     <include
         android:id="@+id/card1"
-        layout="@layout/card"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_margin="@dimen/card_padding"
-        android:padding="@dimen/card_padding" />
+        layout="@layout/card" />
 
     <include
         android:id="@+id/card2"
-        layout="@layout/card"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/card1"
-        android:layout_gravity="center_horizontal"
-        android:layout_margin="@dimen/card_padding"
-        android:padding="@dimen/card_padding" />
+        layout="@layout/card" />
 
     <include
         android:id="@+id/card3"
-        layout="@layout/card"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/card2"
-        android:layout_gravity="center_horizontal"
-        android:layout_margin="@dimen/card_padding"
-        android:padding="@dimen/card_padding" />
-    </RelativeLayout>
+        layout="@layout/card" />
 </FrameLayout>
