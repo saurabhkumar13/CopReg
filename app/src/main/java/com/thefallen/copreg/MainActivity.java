@@ -1,5 +1,6 @@
 package com.thefallen.copreg;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -13,16 +14,19 @@ public class MainActivity extends AppCompatActivity {
 
     GifImageView view;
     FrameLayout splashScreen;
+    View Overshoot;
+    Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mContext = this;
         //Gif view
         view = (GifImageView) findViewById(R.id.logo);
         splashScreen = (FrameLayout) findViewById(R.id.splashScreen);
-        splashScreen.setTranslationY(-120);
+        Overshoot = (View) findViewById(R.id.Overshoot);
 
         //in millis
         int splashDelay = 2400;
@@ -40,11 +44,10 @@ public class MainActivity extends AppCompatActivity {
                 //animate down
                 splashScreen.animate()
                         .setDuration(splashDuration)
-                        .translationY(-splashScreen.getHeight() + 300)
+                        .translationY(-splashScreen.getHeight() + DisplayHelper.dpToPx(200,mContext))
                         .setInterpolator(new AnticipateOvershootInterpolator(1));
-                            }
-//                        });
-//            }
+            }
+
         }, splashDelay);
     }
 }
