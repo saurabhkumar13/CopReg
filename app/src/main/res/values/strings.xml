@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">CopReg</string>
+    <string name="error_team_name">Enter a valid Team Name</string>
     <string name="error_name">Enter a valid Name</string>
     <string name="error_entry">Enter a valid Entry Number</string>
     <string name="error_noInternet">Check your Internet Connection</string>

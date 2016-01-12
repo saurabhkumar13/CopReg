@@ -255,7 +255,7 @@ public class MainActivity extends AppCompatActivity {
                     dataName.add(((EditText) member[i].getChildAt(0)).getText().toString());
                     dataEntryNo.add(((EditText) member[i].getChildAt(1)).getText().toString());
                 }
-                if (VerifyData(dataName, dataEntryNo)) {
+                if (VerifyData(teamname_backside.getText().toString(), dataName, dataEntryNo)) {
                     callApi(teamname_backside.getText().toString(), dataName, dataEntryNo);
                 }
             }
@@ -308,8 +308,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //Checks for validity of the entry number
-    public boolean VerifyData(ArrayList<String> dataName, ArrayList<String> dataEntryNo)
+    public boolean VerifyData(String teamName, ArrayList<String> dataName, ArrayList<String> dataEntryNo)
     {
+        if (teamName.equals("") || teamName.charAt(0) == '#') {
+            errorSnack(R.string.error_team_name);
+            return false;
+        }
 
         for (int i=0;i<dataName.size();i++)
         {
