@@ -23,49 +23,49 @@
         <EditText
             android:id="@+id/teamname_frontside"
             android:layout_width="match_parent"
-            android:textIsSelectable="false"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
+            android:background="@null"
+            android:elevation="10dp"
             android:gravity="center"
             android:inputType="textNoSuggestions|textMultiLine"
             android:paddingLeft="60dp"
             android:paddingRight="60dp"
-            android:elevation="10dp"
             android:text="@string/teamnameStub"
-            android:background="@drawable/teal_material2"
             android:textColor="#F39200"
+            android:textIsSelectable="false"
             android:textSize="30sp" />
 
         <EditText
             android:id="@+id/teamname_shadow"
-            android:textIsSelectable="false"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
+            android:background="@null"
+            android:elevation="10dp"
             android:gravity="center"
             android:inputType="textNoSuggestions|textMultiLine"
             android:paddingLeft="60dp"
             android:paddingRight="60dp"
-            android:background="@null"
-            android:elevation="10dp"
             android:text="@string/teamnameStub"
             android:textColor="#B46F06"
+            android:textIsSelectable="false"
             android:textSize="30sp" />
 
         <EditText
             android:id="@+id/teamname_backside"
             android:layout_width="match_parent"
-            android:inputType="textNoSuggestions|textMultiLine"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:gravity="center"
-            android:textIsSelectable="false"
             android:background="@null"
+            android:elevation="10dp"
+            android:gravity="center"
+            android:inputType="textNoSuggestions|textMultiLine"
             android:paddingLeft="60dp"
             android:paddingRight="60dp"
-            android:elevation="10dp"
             android:text="@string/teamnameStub"
             android:textColor="#FFAD33"
+            android:textIsSelectable="false"
             android:textSize="30sp" />
 
     </FrameLayout>
@@ -83,29 +83,29 @@
         layout="@layout/card" />
 
     <Button
-        android:layout_height="50dp"
-        android:layout_width="match_parent"
-        android:gravity="center"
-        android:text="REGISTER"
         android:id="@+id/register"
-        android:textSize="18dp"
-        android:textColor="@color/Primary50"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
         android:layout_margin="@dimen/activity_horizontal_margin"
         android:background="@drawable/round_button"
         android:elevation="16dp"
+        android:gravity="center"
+        android:text="REGISTER"
+        android:textColor="@color/Primary50"
+        android:textSize="18dp"
         />
     <TextView
         android:id="@+id/registertwo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:background="@drawable/round_rect_shape"
+        android:elevation="10dp"
+        android:padding="8dp"
         android:text="@string/registertwo"
         android:textColor="@color/Accents50"
         android:textSize="12dp"
-        android:layout_margin="@dimen/activity_horizontal_margin"
-        android:padding="8dp"
-        android:elevation="10dp"
-        android:layout_gravity="center_horizontal"
-        android:background="@drawable/round_rect_shape"
         />
     <!--android:visibility="invisible"-->
 </FrameLayout>
