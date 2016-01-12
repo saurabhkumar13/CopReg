@@ -23,14 +23,15 @@
         android:id="@+id/splashScreen"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimary"
+        android:background="@color/Primary300"
         android:elevation="10dp"
         >
 
         <pl.droidsonroids.gif.GifImageView
             android:id="@+id/logo"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="top"
             android:src="@drawable/splash_logo"
             />
 

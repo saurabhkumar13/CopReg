@@ -92,8 +92,7 @@ public class MainActivity extends AppCompatActivity {
 
         setTypeface();
 
-        Typeface typeFace_frontside= Typeface.createFromAsset(getAssets(), "fonts/Moldover-THICK.otf");
-        submit_button.setTypeface(typeFace_frontside);
+        submit_button.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/roboto/Roboto-Thin.ttf"));
 
         setLayoutParams();
         splashAnimate();
@@ -117,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Gif that shows the name of the app CopReg
         FrameLayout.LayoutParams gifLayoutParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT);
-        gifLayoutParams.topMargin = DisplayHelper.getHeight(mContext) / 2;
+        gifLayoutParams.topMargin = DisplayHelper.getHeight(mContext) / 2 - 256;
         gifImageView.setLayoutParams(gifLayoutParams);
 
         //on success GIF parameters
@@ -186,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
 
     //GIF animate
     public void splashAnimate() {
-        int splashDelay = 2400;
+        int splashDelay = 2800;
         int splashDuration = 1000;
         // Start the animation
         splashScreen.animate()
