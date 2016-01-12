@@ -1,5 +1,7 @@
 package com.thefallen.copreg;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -50,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     EditText teamname_shadow;
     EditText teamname_backside;
     Button submit_button;
+    TextView registertwo;
     int numOnScreenMembers=0;
     Boolean backpressedtwice=false;
     private FloatingActionButton fab ;
@@ -71,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
         gifImageView = (GifImageView) findViewById(R.id.logo);
         splashScreen = (FrameLayout) findViewById(R.id.splashScreen);
         submit_button = (Button) findViewById(R.id.register);
+        registertwo=(TextView)findViewById(R.id.registertwo);
 
         member=new ViewGroup[3];
         member[0] = (ViewGroup) findViewById(R.id.card1);
@@ -114,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Submit Button
         submit_button.setTranslationY(DisplayHelper.getHeight(mContext));
+        registertwo.setTranslationY(DisplayHelper.getHeight(mContext));
 
         //Team name Display and edit field
         ViewGroup.LayoutParams teamParams = teamname_backside.getLayoutParams();
@@ -433,6 +438,21 @@ public class MainActivity extends AppCompatActivity {
                 .setDuration(500)
                 .setStartDelay(400)
                 .setInterpolator(new OvershootInterpolator());
+        registertwo.animate()
+                .translationY(DisplayHelper.getHeight(mContext) - submit_button.getHeight()-DisplayHelper.dpToPx(100,mContext))
+                .setDuration(500)
+                .setStartDelay(400)
+                .setInterpolator(new OvershootInterpolator())
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animator) {
+                        registertwo.animate()
+                                .translationY(DisplayHelper.getHeight(mContext))
+                                .setStartDelay(4000)
+                                .setDuration(500)
+                                .setInterpolator(new AnticipateInterpolator());
+                    }
+                });
     }
 
     //Removes the display of the register button
