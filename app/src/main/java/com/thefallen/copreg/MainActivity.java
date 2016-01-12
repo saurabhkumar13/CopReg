@@ -147,6 +147,8 @@ public class MainActivity extends AppCompatActivity {
                     if (s.charAt(start) == KeyEvent.KEYCODE_ENTER || s.charAt(start) == '\n') {
                         String moddedString = teamname_backside.getText().toString().substring(0, start) + teamname_backside.getText().toString().substring(start + count);
                         teamname_backside.setText(moddedString);
+                        teamname_frontside.setText(moddedString);
+                        teamname_shadow.setText(moddedString);
                         return;
                     }
                 teamname_frontside.setText(s);
