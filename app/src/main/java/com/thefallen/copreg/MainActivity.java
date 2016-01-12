@@ -247,15 +247,114 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public boolean VerifyData(ArrayList<String> dataName, ArrayList<String> dataEntryNo) {
+    public boolean VerifyData(ArrayList<String> dataName, ArrayList<String> dataEntryNo)
+    {
 
-        //TODO verify the fields with regex
-    return false;
+        for (int i=0;i<dataName.size();i++)
+        {
+            if(dataName.get(i).equals("")||!dataName.get(i).matches("[A-z ]+"))
+            {
+                errorSnack(R.string.error_name);
+                return false;
+            }
+
+            if(dataEntryNo.get(i).length()!=11
+                    ||
+                    !dataEntryNo.get(i).substring(0,4).matches("[0-9]+")
+                    ||
+                    !dataEntryNo.get(i).substring(4,6).matches("[A-z]+")
+                    ||
+                    !dataEntryNo.get(i).substring(6, 7).matches("^[a-zA-Z0-9]*$")
+                    ||
+                    !dataEntryNo.get(i).substring(7,11).matches("[0-9]+")
+                    )
+            {
+                errorSnack(R.string.error_entry);
+
+                return false;
+            }
+        }
+        return true;
     }
 
     public void callApi(final String teamName, final ArrayList<String> dataName, final ArrayList<String> dataEntryNo)
     {
-        //TODO use volley and hit the api
+            String url = getResources().getString(R.string.url);
+
+            // Request a string response
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+
+                            try {
+                                JSONObject jsonObject=new JSONObject(response);
+                                if(jsonObject.getInt("RESPONSE_SUCCESS")==1){
+                                    onSuccess();
+                                }
+                                else{
+                                    final Snackbar snackBar=Snackbar.make(register,jsonObject.getString("RESPONSE_MESSAGE"), Snackbar.LENGTH_LONG);
+                                    snackBar.setActionTextColor(getResources().getColor(R.color.colorAccent))
+                                            .setAction("HIDE", new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+                                                    snackBar.dismiss();
+                                                }
+                                            });
+                                    snackBar.show();
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            // Result handling
+                            System.out.println(response);
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError volleyError) {
+
+                            // Error handling
+                            volleyError.printStackTrace();
+
+                            int statusCode=200;
+                            try{
+                                statusCode=volleyError.networkResponse.statusCode;
+                            }catch (Exception e ){
+                                e.printStackTrace();
+                            }
+                            if(volleyError instanceof NoConnectionError) {
+//                                errorSnack(R.string.error_noInternet);
+                                onSuccess();
+                            }
+
+                            else if(statusCode==500 ) {
+
+                                errorSnack(R.string.error_serverError);
+                            }
+                        }
+                    }){
+                        @Override
+                        protected Map<String,String> getParams(){
+                            Map<String,String> params = new HashMap<>();
+                            params.put("teamname", teamName);
+                            for(int i=0;i<dataName.size();i++)
+                            {
+                                params.put("name"+(i+1),dataName.get(i));
+                                params.put("entry"+(i+1),dataEntryNo.get(i));
+                            }
+                            return params;
+                        }
+
+                        @Override
+                        public Map<String, String> getHeaders() throws AuthFailureError {
+                            Map<String,String> params = new HashMap<>();
+                            params.put("Content-Type","application/x-www-form-urlencoded");
+                            return params;
+                        }
+                    };
+
+            // Add the request to the queue
+            Volley.newRequestQueue(this).add(stringRequest);
     }
 
     public void onSuccess(){
