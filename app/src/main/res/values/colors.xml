@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#607d8b</color>
+    <color name="colorPrimary">#009688</color>
     <color name="colorPrimaryDark">#00695C</color>
     <color name="colorAccent">#FFA000</color>
 
@@ -15,6 +15,11 @@
     <color name="Primary700">#00897B</color>
     <color name="Primary800">#00695C</color>
     <color name="Primary900">#004D40</color>
+    <color name="Pallete2">#222445</color>
+    <color name="Pallete3">#004D40</color>
+    <color name="Pallete4">#C2996D</color>
+    <color name="Pallete5">#A99B99</color>
+
     <!-- Accents -->
     <color name="Accents50">#FFECB3</color>
     <color name="Accents100">#ffe57f</color>

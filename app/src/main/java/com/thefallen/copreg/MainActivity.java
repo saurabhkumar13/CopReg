@@ -5,13 +5,14 @@ import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
-import android.support.design.widget.FloatingActionButton;
 import android.view.ViewGroup;
 import android.view.animation.AnticipateInterpolator;
 import android.view.animation.AnticipateOvershootInterpolator;
@@ -21,7 +22,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.os.Handler;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -55,8 +55,8 @@ public class MainActivity extends AppCompatActivity {
     TextView registertwo;
     int numOnScreenMembers=0;
     Boolean backpressedtwice=false;
-    private FloatingActionButton fab ;
     int Overshoot ;
+    private FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -434,12 +434,12 @@ public class MainActivity extends AppCompatActivity {
     public void registerPopIn()
     {
         submit_button.animate()
-                .translationY(DisplayHelper.getHeight(mContext) - submit_button.getHeight()-DisplayHelper.dpToPx(55,mContext))
+                .translationY(DisplayHelper.getHeight(mContext) - DisplayHelper.dpToPx(85, mContext))
                 .setDuration(500)
                 .setStartDelay(400)
                 .setInterpolator(new OvershootInterpolator());
         registertwo.animate()
-                .translationY(DisplayHelper.getHeight(mContext) - submit_button.getHeight()-DisplayHelper.dpToPx(100,mContext))
+                .translationY(DisplayHelper.getHeight(mContext) - registertwo.getHeight() - DisplayHelper.dpToPx(120, mContext))
                 .setDuration(500)
                 .setStartDelay(400)
                 .setInterpolator(new OvershootInterpolator())
