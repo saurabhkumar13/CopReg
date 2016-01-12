@@ -15,31 +15,31 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:background="#00ffffff"
-        android:hint="NAME"
+        android:hint="Name"
         android:inputType="textNoSuggestions"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
         android:paddingStart="8dp"
         android:scrollHorizontally="true"
         android:singleLine="true"
-        android:textColor="@color/Accents50"
-        android:textColorHint="@color/Accents50"
+        android:textColor="@color/Primary100"
+        android:textColorHint="@color/Primary200"
         android:textIsSelectable="false"
-        android:textSize="16sp" />
+        android:textSize="14sp" />
 
     <EditText
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight=".4"
         android:background="#00ffffff"
-        android:hint="ENTRY NO"
+        android:hint="Entry No"
         android:inputType="textNoSuggestions"
         android:maxLength="@integer/entry_number_length"
         android:singleLine="true"
         android:textAllCaps="true"
-        android:textColor="@color/Accents50"
-        android:textColorHint="@color/Accents50"
+        android:textColor="@color/Primary100"
+        android:textColorHint="@color/Primary200"
         android:textIsSelectable="false"
-        android:textSize="12sp" />
+        android:textSize="14sp" />
 
 </LinearLayout>

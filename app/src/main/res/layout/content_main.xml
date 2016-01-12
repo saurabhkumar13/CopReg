@@ -100,7 +100,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_margin="@dimen/activity_horizontal_margin"
-        android:background="@drawable/round_rect_shape"
+        android:background="@drawable/round_rect_shape_error"
         android:padding="8dp"
         android:text="@string/registertwo"
         android:textColor="@color/Accents50"
