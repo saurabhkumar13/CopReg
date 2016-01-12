@@ -18,7 +18,6 @@ import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AnticipateInterpolator;
 import android.view.animation.AnticipateOvershootInterpolator;
-import android.view.animation.BounceInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -50,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
     //Declarations of views buttons contexts, etc.
     GifImageView gifImageView;
-    GifImageView mRevealView;
+    GifImageView onSuccessGIF;
     FrameLayout splashScreen;
     Context mContext;
     ViewGroup[] member;
@@ -58,12 +57,12 @@ public class MainActivity extends AppCompatActivity {
     EditText teamname_shadow;
     EditText teamname_backside;
     Button submit_button;
-    TextView registertwo;
-    TextView addmember;
-    Boolean requestsent=false;
-    int numOnScreenMembers=0;
-    Boolean backpressedtwice=false;
-    int Overshoot ;
+    TextView registerHint;
+    TextView memberHint;
+    Boolean requestInQueue = false;
+    int numOnScreenMembers = 0;
+    Boolean backPressedTwice = false;
+    int Overshoot;
     private FloatingActionButton fab;
 
     @Override
@@ -80,11 +79,11 @@ public class MainActivity extends AppCompatActivity {
         fab = (FloatingActionButton) findViewById(R.id.fab);
 
         gifImageView = (GifImageView) findViewById(R.id.logo);
-        mRevealView = (GifImageView) findViewById(R.id.tick);
+        onSuccessGIF = (GifImageView) findViewById(R.id.tick);
         splashScreen = (FrameLayout) findViewById(R.id.splashScreen);
         submit_button = (Button) findViewById(R.id.register);
-        registertwo=(TextView)findViewById(R.id.registertwo);
-        addmember=(TextView)findViewById(R.id.addmember);
+        registerHint = (TextView) findViewById(R.id.registertwo);
+        memberHint = (TextView) findViewById(R.id.addmember);
 
         member=new ViewGroup[3];
         member[0] = (ViewGroup) findViewById(R.id.card1);
@@ -99,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         setLayoutParams();
         splashAnimate();
         fabPop();
-        fabclick();
+        fabClick();
         registerOnClick();
 
     }
@@ -121,9 +120,10 @@ public class MainActivity extends AppCompatActivity {
         gifLayoutParams.topMargin = DisplayHelper.getHeight(mContext) / 2;
         gifImageView.setLayoutParams(gifLayoutParams);
 
-        ViewGroup.LayoutParams mRevealLayoutParams = mRevealView.getLayoutParams();
+        //on success GIF parameters
+        ViewGroup.LayoutParams mRevealLayoutParams = onSuccessGIF.getLayoutParams();
         mRevealLayoutParams.height  = (int)(DisplayHelper.getHeight(mContext)*0.56);
-        mRevealView.setLayoutParams(mRevealLayoutParams);
+        onSuccessGIF.setLayoutParams(mRevealLayoutParams);
 
         //Cards that contain the information of a team member
         member[0].setTranslationY(DisplayHelper.getHeight(mContext));
@@ -132,8 +132,8 @@ public class MainActivity extends AppCompatActivity {
 
         //Submit Button
         submit_button.setTranslationY(DisplayHelper.getHeight(mContext));
-        registertwo.setTranslationY(DisplayHelper.getHeight(mContext));
-        addmember.setTranslationY((int) (DisplayHelper.getHeight(mContext) * 0.4) + DisplayHelper.dpToPx(50, mContext));
+        registerHint.setTranslationY(DisplayHelper.getHeight(mContext));
+        memberHint.setTranslationY((int) (DisplayHelper.getHeight(mContext) * 0.4) + DisplayHelper.dpToPx(50, mContext));
 
         //Team name Display and edit field
         ViewGroup.LayoutParams teamParams = teamname_backside.getLayoutParams();
@@ -144,13 +144,13 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    //Sets typeface for the submit button
+    //Sets typeface for the team name EditText
     public void setTypeface(){
         teamname_frontside = (EditText)findViewById(R.id.teamname_frontside);
         teamname_shadow = (EditText)findViewById(R.id.teamname_shadow);
         teamname_backside = (EditText)findViewById(R.id.teamname_backside);
 
-        //Relays the text info to the other two fields.
+        //Relays the text info to the front side and shadow
         teamname_backside.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -176,12 +176,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Typeface typeFace_frontside= Typeface.createFromAsset(getAssets(), "fonts/typogami/Typogami-Frontside.otf");
+        Typeface typeFace_front_side = Typeface.createFromAsset(getAssets(), "fonts/typogami/Typogami-Frontside.otf");
         Typeface typeFace_shadow= Typeface.createFromAsset(getAssets(), "fonts/typogami/Typogami-Shadow.otf");
-        Typeface typeFace_backside= Typeface.createFromAsset(getAssets(), "fonts/typogami/Typogami-Backside.otf");
-        teamname_frontside.setTypeface(typeFace_frontside);
+        Typeface typeFace_back_side = Typeface.createFromAsset(getAssets(), "fonts/typogami/Typogami-Backside.otf");
+        teamname_frontside.setTypeface(typeFace_front_side);
         teamname_shadow.setTypeface(typeFace_shadow);
-        teamname_backside.setTypeface(typeFace_backside);
+        teamname_backside.setTypeface(typeFace_back_side);
     }
 
     //GIF animate
@@ -218,7 +218,7 @@ public class MainActivity extends AppCompatActivity {
             ((TextView) member[numOnScreenMembers].getChildAt(0)).setText("");
             ((TextView) member[numOnScreenMembers].getChildAt(1)).setText("");
             if(numOnScreenMembers==0){
-                addmember.animate()
+                memberHint.animate()
                         .alpha(1.0f)
                         .setDuration(500)
                         .setInterpolator(new AccelerateDecelerateInterpolator())
@@ -228,13 +228,16 @@ public class MainActivity extends AppCompatActivity {
                 registerPopOut();
         }
         else {
-            if(backpressedtwice)
-            super.onBackPressed();
-            backpressedtwice=true;
+            if (backPressedTwice)
+                super.onBackPressed();
+
+            backPressedTwice = true;
+
             Toast.makeText(mContext,"Press back again to exit",Toast.LENGTH_SHORT).show();
+
             new Handler().postDelayed(new Runnable() {
                 public void run() {
-                    backpressedtwice=false;
+                    backPressedTwice = false;
                 }
             }, 1000);
         }
@@ -260,7 +263,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //Governs action taken on the fab being clicked
-    public void fabclick(){
+    public void fabClick() {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -269,7 +272,7 @@ public class MainActivity extends AppCompatActivity {
                 ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(teamname_backside.getWindowToken(), 0);
 
                 if(numOnScreenMembers==0){
-                    addmember.animate()
+                    memberHint.animate()
                             .alpha(0.0f)
                             .setDuration(500)
                             .setInterpolator(new AccelerateDecelerateInterpolator())
@@ -346,7 +349,7 @@ public class MainActivity extends AppCompatActivity {
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
-                            requestsent=false;
+                            requestInQueue = false;
                             try {
                                 JSONObject jsonObject=new JSONObject(response);
                                 if(jsonObject.getInt("RESPONSE_SUCCESS")==1){
@@ -372,7 +375,7 @@ public class MainActivity extends AppCompatActivity {
                     }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError volleyError) {
-                            requestsent=false;
+                            requestInQueue = false;
                             // Error handling
                             volleyError.printStackTrace();
 
@@ -412,8 +415,8 @@ public class MainActivity extends AppCompatActivity {
                     };
 
             // Add the request to the queue
-            if(!requestsent){
-                requestsent=true;
+        if (!requestInQueue) {
+            requestInQueue = true;
                 Volley.newRequestQueue(this).add(stringRequest);
             }
     }
@@ -470,15 +473,15 @@ public class MainActivity extends AppCompatActivity {
                 .setDuration(500)
                 .setStartDelay(400)
                 .setInterpolator(new OvershootInterpolator());
-        registertwo.animate()
-                .translationY(DisplayHelper.getHeight(mContext) - registertwo.getHeight() - DisplayHelper.dpToPx(120, mContext))
+        registerHint.animate()
+                .translationY(DisplayHelper.getHeight(mContext) - registerHint.getHeight() - DisplayHelper.dpToPx(120, mContext))
                 .setDuration(500)
                 .setStartDelay(400)
                 .setInterpolator(new OvershootInterpolator())
                 .setListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animator) {
-                        registertwo.animate()
+                        registerHint.animate()
                                 .translationY(DisplayHelper.getHeight(mContext))
                                 .setStartDelay(4000)
                                 .setDuration(500)
@@ -496,63 +499,60 @@ public class MainActivity extends AppCompatActivity {
                 .setInterpolator(new OvershootInterpolator());
     }
 
+
+    //on success GIF circular reveal animation
     public void tickReveal(){
-        int cx = mRevealView.getWidth()/2;
 
-        int cy = DisplayHelper.getHeight(mContext);
-
-        int radius = Math.max(mRevealView.getWidth(), mRevealView.getHeight());
-
+        // for API < 21 Android ViewAnimationsUtils circular reveal is not supported
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-
-
             final SupportAnimator tickAnimator =
-                    ViewAnimationUtils.createCircularReveal(mRevealView, cx, cy, 0, radius);
+                    ViewAnimationUtils.createCircularReveal(onSuccessGIF, onSuccessGIF.getWidth(), DisplayHelper.getHeight(mContext), 0, onSuccessGIF.getHeight());
             tickAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
             tickAnimator.setDuration(800);
+
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     SupportAnimator animator_reverse = tickAnimator.reverse();
                     animator_reverse.addListener(new SupportAnimator.AnimatorListener() {
-                        @Override
-                        public void onAnimationStart() {
-
-                        }
 
                         @Override
                         public void onAnimationEnd() {
-                            mRevealView.setVisibility(View.INVISIBLE);
+                            onSuccessGIF.setVisibility(View.INVISIBLE);
+                        }
+
+                        @Override
+                        public void onAnimationStart() {
                         }
 
                         @Override
                         public void onAnimationCancel() {
-
                         }
 
                         @Override
                         public void onAnimationRepeat() {
-
                         }
                     });
                     animator_reverse.start();
                 }
             }, 4000);
 
-                mRevealView.setVisibility(View.VISIBLE);
+            onSuccessGIF.setVisibility(View.VISIBLE);
                 tickAnimator.start();
+
         } else {
-                Animator anim = android.view.ViewAnimationUtils.createCircularReveal(mRevealView, mRevealView.getWidth()/2, mRevealView.getHeight(), 0, DisplayHelper.getHeight(mContext));
-                mRevealView.setVisibility(View.VISIBLE);
+            Animator anim = android.view.ViewAnimationUtils.createCircularReveal(onSuccessGIF, onSuccessGIF.getWidth() / 2, onSuccessGIF.getHeight(), 0, DisplayHelper.getHeight(mContext));
+            onSuccessGIF.setVisibility(View.VISIBLE);
                 anim.start();
-                anim.addListener(new AnimatorListenerAdapter() {
+
+            anim.addListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animator) {
-                        Animator anim = android.view.ViewAnimationUtils.createCircularReveal(mRevealView, mRevealView.getWidth()/2, mRevealView.getHeight(), DisplayHelper.getHeight(mContext), 0);
+                        Animator anim = android.view.ViewAnimationUtils.createCircularReveal(onSuccessGIF, onSuccessGIF.getWidth() / 2, onSuccessGIF.getHeight(), DisplayHelper.getHeight(mContext), 0);
                         anim.addListener(new AnimatorListenerAdapter() {
                             @Override
                             public void onAnimationEnd(Animator animator) {
-                                mRevealView.setVisibility(View.INVISIBLE);
+                                onSuccessGIF.setVisibility(View.INVISIBLE);
                             }
                         });
                         anim.setStartDelay(3000);
