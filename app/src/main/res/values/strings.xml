@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">CopReg</string>
+    <string name="error_name">Enter a valid Name</string>
+    <string name="error_entry">Enter a valid Entry Number</string>
+    <string name="error_noInternet">Check your Internet Connection</string>
+    <string name="error_serverError">Internal Server Error</string>
+    <string name="teamnameStub">#YOUR TEAM NAME HERE</string>
+    <string name="successMessage">Successfully Registered!</string>
+    <string name="url">http://agni.iitd.ernet.in/cop290/assign0/register/</string>
 </resources>

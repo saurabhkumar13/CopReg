@@ -1,36 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.thefallen.copreg.MainActivity">
+    android:fitsSystemWindows="true"
+    tools:context="in.sarthy.solmate.profile">
+    <include layout="@layout/content_main"/>
 
-    <FrameLayout
-        android:id="@+id/splashScreen"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorPrimary"
-        android:elevation="16dp"
-        >
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        app:elevation="10dp"
+        app:backgroundTint="@color/Accents700"
+        app:borderWidth="0dp"
+        android:src="@drawable/ic_add_white_18dp" />
 
-        <pl.droidsonroids.gif.GifImageView
-            android:id="@+id/logo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/splashlogo2"
-            />
-
-    </FrameLayout>
-
-    <include
-        android:id="@+id/card1"
-        layout="@layout/card" />
-
-    <include
-        android:id="@+id/card2"
-        layout="@layout/card" />
-
-    <include
-        android:id="@+id/card3"
-        layout="@layout/card" />
-</FrameLayout>
+</android.support.design.widget.CoordinatorLayout>

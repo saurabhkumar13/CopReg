@@ -8,28 +8,34 @@
     android:elevation="2dp"
     android:orientation="horizontal"
     android:padding="@dimen/card_padding"
-    android:textColor="@color/Primary800"
     >
 
     <EditText
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="match_parent"
-        android:hint="Name"
+        android:textColor="@color/Accents50"
+        android:hint="NAME"
+        android:textIsSelectable="false"
+        android:inputType="textNoSuggestions"
         android:background="#00ffffff"
         android:scrollHorizontally="true"
         android:singleLine="true"
-        android:textColorHint="@android:color/white"
+        android:textColorHint="@color/Accents50"
         android:textSize="16sp" />
 
     <EditText
         android:layout_width="0dp"
+        android:textColor="@color/Accents50"
         android:layout_weight=".4"
         android:layout_height="match_parent"
+        android:textAllCaps="true"
+        android:inputType="textNoSuggestions"
+        android:textIsSelectable="false"
         android:background="#00ffffff"
-        android:hint="Entry Number"
+        android:hint="ENTRY NO"
+        android:textColorHint="@color/Accents50"
         android:singleLine="true"
-        android:textColorHint="@android:color/white"
         android:textSize="12sp" />
 
 </LinearLayout>
