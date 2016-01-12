@@ -41,32 +41,36 @@ import pl.droidsonroids.gif.GifImageView;
 
 public class MainActivity extends AppCompatActivity {
 
+    //Declarations of views buttons contexts, etc.
     GifImageView gifImageView;
     FrameLayout splashScreen;
     Context mContext;
     ViewGroup[] member;
     EditText teamname_frontside;
-    EditText teamname_shadoow;
+    EditText teamname_shadow;
     EditText teamname_backside;
-    Button register;
+    Button submit_button;
     int numOnScreenMembers=0;
     Boolean backpressedtwice=false;
     private FloatingActionButton fab ;
     int Overshoot ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         mContext = this;
         Overshoot = DisplayHelper.dpToPx(50,mContext);
 
+        //Connecting objects to layouts in xml
+
         fab = (FloatingActionButton) findViewById(R.id.fab);
 
-        //Views
         gifImageView = (GifImageView) findViewById(R.id.logo);
         splashScreen = (FrameLayout) findViewById(R.id.splashScreen);
-        register = (Button) findViewById(R.id.register);
+        submit_button = (Button) findViewById(R.id.register);
 
         member=new ViewGroup[3];
         member[0] = (ViewGroup) findViewById(R.id.card1);
@@ -76,43 +80,57 @@ public class MainActivity extends AppCompatActivity {
         setTypeface();
 
         Typeface typeFace_frontside= Typeface.createFromAsset(getAssets(), "fonts/Moldover-THICK.otf");
-        register.setTypeface(typeFace_frontside);
+        submit_button.setTypeface(typeFace_frontside);
+
         setLayoutParams();
         splashAnimate();
         fabPop();
         fabclick();
         registerOnClick();
+
     }
 
-    //Layout Parameters for splash, GIF and screen
+    //This function sets size and position parameters for the different views and screens.
     public void setLayoutParams() {
-//        fab.setY((int) (DisplayHelper.getHeight(mContext) * 0.4 - DisplayHelper.dpToPx(27, mContext)));
+
+        //Floating Action Button
         ViewGroup.MarginLayoutParams fabParams = (ViewGroup.MarginLayoutParams)fab.getLayoutParams();
-        fabParams.bottomMargin = ((int) (DisplayHelper.getHeight(mContext) * 0.165)); //+ DisplayHelper.dpToPx(36, mContext)));
+        fabParams.bottomMargin = ((int) (DisplayHelper.getHeight(mContext) * 0.165));
         fab.setLayoutParams(fabParams);
+
+        //Splash Screen
         splashScreen.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, (int) (DisplayHelper.getHeight(mContext) * 1.4 + Overshoot)));
         splashScreen.setTranslationY(-Overshoot);
+
+        //Gif that shows the name of the app CopReg
         FrameLayout.LayoutParams gifLayoutParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT);
         gifLayoutParams.topMargin = DisplayHelper.getHeight(mContext) / 2;
         gifImageView.setLayoutParams(gifLayoutParams);
+
+        //Cards that contain the information of a team member
         member[0].setTranslationY(DisplayHelper.getHeight(mContext));
         member[1].setTranslationY(DisplayHelper.getHeight(mContext));
         member[2].setTranslationY(DisplayHelper.getHeight(mContext));
-        register.setTranslationY(DisplayHelper.getHeight(mContext));
+
+        //Submit Button
+        submit_button.setTranslationY(DisplayHelper.getHeight(mContext));
+
+        //Team name Display and edit field
         ViewGroup.LayoutParams teamParams = teamname_backside.getLayoutParams();
         teamParams.height = (int) (DisplayHelper.getHeight(mContext) * 0.4);
         teamname_backside.setLayoutParams(teamParams);
         teamname_frontside.setLayoutParams(teamParams);
-        teamname_shadoow.setLayoutParams(teamParams);
+        teamname_shadow.setLayoutParams(teamParams);
 
     }
 
+    //Sets typeface for the submit button
     public void setTypeface(){
         teamname_frontside = (EditText)findViewById(R.id.teamname_frontside);
-        teamname_shadoow = (EditText)findViewById(R.id.teamname_shadow);
+        teamname_shadow = (EditText)findViewById(R.id.teamname_shadow);
         teamname_backside = (EditText)findViewById(R.id.teamname_backside);
 
-        //listener
+        //Relays the text info to the other two fields.
         teamname_backside.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -127,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
                         return;
                     }
                 teamname_frontside.setText(s);
-                teamname_shadoow.setText(s);
+                teamname_shadow.setText(s);
             }
 
             @Override
@@ -140,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
         Typeface typeFace_shadow= Typeface.createFromAsset(getAssets(), "fonts/typogami/Typogami-Shadow.otf");
         Typeface typeFace_backside= Typeface.createFromAsset(getAssets(), "fonts/typogami/Typogami-Backside.otf");
         teamname_frontside.setTypeface(typeFace_frontside);
-        teamname_shadoow.setTypeface(typeFace_shadow);
+        teamname_shadow.setTypeface(typeFace_shadow);
         teamname_backside.setTypeface(typeFace_backside);
     }
 
@@ -149,22 +167,24 @@ public class MainActivity extends AppCompatActivity {
         int splashDelay = 2400;
         int splashDuration = 1000;
         // Start the animation
-        //animate down
         splashScreen.animate()
                 .setDuration(splashDuration)
                 .setStartDelay(splashDelay)
                 .translationY(-DisplayHelper.getHeight(mContext)-Overshoot)
                 .setInterpolator(new AnticipateOvershootInterpolator(1));
     }
-    public void getCard(View member, int mem)
+
+    //Animates and positions the cards on the screen
+    public void getCard(View member, int mem_id)
     {
         int cardDuration = 700;
         member.animate()
                 .setDuration(cardDuration)
-                .translationY((int)(DisplayHelper.getHeight(mContext)*0.4)+DisplayHelper.dpToPx(27+mem*50,mContext))
+                .translationY((int)(DisplayHelper.getHeight(mContext)*0.4)+DisplayHelper.dpToPx(27+mem_id*50,mContext))
                 .setInterpolator(new AnticipateOvershootInterpolator(1));
     }
 
+    //Removes the last added card on pressing back button, and exits the app on pressing back twice
     @Override
     public void onBackPressed(){
         if(numOnScreenMembers>0){
@@ -188,52 +208,55 @@ public class MainActivity extends AppCompatActivity {
                     backpressedtwice=false;
                 }
             }, 1000);
-
-
         }
     }
 
+    //Checks validity and calls the api calling function
     public void registerOnClick()
     {
-        register.setOnClickListener(new View.OnClickListener() {
+        submit_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ArrayList<String> dataName = new ArrayList<>();
                 ArrayList<String> dataEntryNo = new ArrayList<>();
-                for(int i=0;i<numOnScreenMembers;i++)
-                {
-                    dataName.add(((EditText)member[i].getChildAt(0)).getText().toString());
-                    dataEntryNo.add(((EditText)member[i].getChildAt(1)).getText().toString());
+                for (int i = 0; i < numOnScreenMembers; i++) {
+                    dataName.add(((EditText) member[i].getChildAt(0)).getText().toString());
+                    dataEntryNo.add(((EditText) member[i].getChildAt(1)).getText().toString());
                 }
-                if(VerifyData(dataName,dataEntryNo))
-                {
-                    callApi(teamname_backside.getText().toString(),dataName,dataEntryNo);
+                if (VerifyData(dataName, dataEntryNo)) {
+                    callApi(teamname_backside.getText().toString(), dataName, dataEntryNo);
                 }
             }
         });
     }
+
+    //Governs action taken on the fab being clicked
     public void fabclick(){
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(teamname_backside.getWindowToken(), 0);
+
+                //Hides keyboard when Fab is pressed
+                ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(teamname_backside.getWindowToken(), 0);
 
                 if(numOnScreenMembers==0){
                     getCard(member[0],0);
                     numOnScreenMembers++;
                 }
+
                 else if(numOnScreenMembers==1){
                     getCard(member[1],1);
                     numOnScreenMembers++;
                     registerPopIn();
                 }
+
                 else if(numOnScreenMembers==2){
                     getCard(member[2],2);
                     numOnScreenMembers++;
                 }
+
                 else if(numOnScreenMembers>2){
-                    final Snackbar snackBar=Snackbar.make(register, "Max three members allowed", Snackbar.LENGTH_LONG);
+                    final Snackbar snackBar=Snackbar.make(submit_button, "Max three members allowed", Snackbar.LENGTH_LONG);
                     snackBar.setActionTextColor(getResources().getColor(R.color.colorAccent))
                             .setAction("HIDE", new View.OnClickListener() {
                                 @Override
@@ -242,11 +265,12 @@ public class MainActivity extends AppCompatActivity {
                                 }
                             });
                             snackBar.show();
-        }
+                }
             }
         });
     }
 
+    //Checks for validity of the entry number
     public boolean VerifyData(ArrayList<String> dataName, ArrayList<String> dataEntryNo)
     {
 
@@ -264,7 +288,7 @@ public class MainActivity extends AppCompatActivity {
                     ||
                     !dataEntryNo.get(i).substring(4,6).matches("[A-z]+")
                     ||
-                    !dataEntryNo.get(i).substring(6, 7).matches("^[a-zA-Z0-9]*$")
+                    !dataEntryNo.get(i).substring(6,7).matches("^[a-zA-Z0-9]*$")
                     ||
                     !dataEntryNo.get(i).substring(7,11).matches("[0-9]+")
                     )
@@ -277,6 +301,8 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+
+    //Calls the API
     public void callApi(final String teamName, final ArrayList<String> dataName, final ArrayList<String> dataEntryNo)
     {
             String url = getResources().getString(R.string.url);
@@ -293,7 +319,7 @@ public class MainActivity extends AppCompatActivity {
                                     onSuccess();
                                 }
                                 else{
-                                    final Snackbar snackBar=Snackbar.make(register,jsonObject.getString("RESPONSE_MESSAGE"), Snackbar.LENGTH_LONG);
+                                    final Snackbar snackBar=Snackbar.make(submit_button,jsonObject.getString("RESPONSE_MESSAGE"), Snackbar.LENGTH_LONG);
                                     snackBar.setActionTextColor(getResources().getColor(R.color.colorAccent))
                                             .setAction("HIDE", new View.OnClickListener() {
                                                 @Override
@@ -323,7 +349,6 @@ public class MainActivity extends AppCompatActivity {
                                 e.printStackTrace();
                             }
                             if(volleyError instanceof NoConnectionError) {
-//                                errorSnack(R.string.error_noInternet);
                                 onSuccess();
                             }
 
@@ -357,6 +382,7 @@ public class MainActivity extends AppCompatActivity {
             Volley.newRequestQueue(this).add(stringRequest);
     }
 
+    //Dispalys Success message
     public void onSuccess(){
         int numOnScreenMembersTemp=numOnScreenMembers;
         for(int i=0;i<numOnScreenMembersTemp;i++)onBackPressed();
@@ -373,6 +399,7 @@ public class MainActivity extends AppCompatActivity {
         snackBar.show();
     }
 
+    //Display error in the snack bar
     public void errorSnack(int id){
         final Snackbar snackBar = Snackbar.make(member[0], getResources().getString(id), Snackbar.LENGTH_LONG);
 
@@ -386,29 +413,32 @@ public class MainActivity extends AppCompatActivity {
         snackBar.show();
     }
 
+    //Entry for fab in the screen
     public void fabPop()
     {
         fab.setScaleX(0);
         fab.setScaleY(0);
-//        fab.setY(fab.getY()-(int)(DisplayHelper.getHeight(mContext)*0.1));
         fab.animate()
                 .scaleXBy(1)
                 .scaleYBy(1)
                 .setStartDelay(3400)
                 .setInterpolator(new OvershootInterpolator(3));
     }
+
+    //Button displayed in the screen
     public void registerPopIn()
     {
-        register.animate()
-                .translationY(DisplayHelper.getHeight(mContext) -register.getHeight()-DisplayHelper.dpToPx(55,mContext))
+        submit_button.animate()
+                .translationY(DisplayHelper.getHeight(mContext) - submit_button.getHeight()-DisplayHelper.dpToPx(55,mContext))
                 .setDuration(500)
                 .setStartDelay(400)
                 .setInterpolator(new OvershootInterpolator());
     }
 
+    //Removes the display of the register button
     public void registerPopOut()
     {
-        register.animate()
+        submit_button.animate()
                 .translationY(DisplayHelper.getHeight(mContext))
                 .setDuration(500)
                 .setInterpolator(new OvershootInterpolator());
