@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
@@ -14,8 +15,10 @@ import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AnticipateInterpolator;
 import android.view.animation.AnticipateOvershootInterpolator;
+import android.view.animation.BounceInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -39,12 +42,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import io.codetail.animation.SupportAnimator;
+import io.codetail.animation.ViewAnimationUtils;
 import pl.droidsonroids.gif.GifImageView;
 
 public class MainActivity extends AppCompatActivity {
 
     //Declarations of views buttons contexts, etc.
     GifImageView gifImageView;
+    GifImageView mRevealView;
     FrameLayout splashScreen;
     Context mContext;
     ViewGroup[] member;
@@ -53,6 +59,8 @@ public class MainActivity extends AppCompatActivity {
     EditText teamname_backside;
     Button submit_button;
     TextView registertwo;
+    TextView addmember;
+    Boolean requestsent=false;
     int numOnScreenMembers=0;
     Boolean backpressedtwice=false;
     int Overshoot ;
@@ -72,9 +80,11 @@ public class MainActivity extends AppCompatActivity {
         fab = (FloatingActionButton) findViewById(R.id.fab);
 
         gifImageView = (GifImageView) findViewById(R.id.logo);
+        mRevealView = (GifImageView) findViewById(R.id.tick);
         splashScreen = (FrameLayout) findViewById(R.id.splashScreen);
         submit_button = (Button) findViewById(R.id.register);
         registertwo=(TextView)findViewById(R.id.registertwo);
+        addmember=(TextView)findViewById(R.id.addmember);
 
         member=new ViewGroup[3];
         member[0] = (ViewGroup) findViewById(R.id.card1);
@@ -111,6 +121,10 @@ public class MainActivity extends AppCompatActivity {
         gifLayoutParams.topMargin = DisplayHelper.getHeight(mContext) / 2;
         gifImageView.setLayoutParams(gifLayoutParams);
 
+        ViewGroup.LayoutParams mRevealLayoutParams = mRevealView.getLayoutParams();
+        mRevealLayoutParams.height  = (int)(DisplayHelper.getHeight(mContext)*0.56);
+        mRevealView.setLayoutParams(mRevealLayoutParams);
+
         //Cards that contain the information of a team member
         member[0].setTranslationY(DisplayHelper.getHeight(mContext));
         member[1].setTranslationY(DisplayHelper.getHeight(mContext));
@@ -119,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
         //Submit Button
         submit_button.setTranslationY(DisplayHelper.getHeight(mContext));
         registertwo.setTranslationY(DisplayHelper.getHeight(mContext));
+        addmember.setTranslationY((int) (DisplayHelper.getHeight(mContext) * 0.4) + DisplayHelper.dpToPx(50, mContext));
 
         //Team name Display and edit field
         ViewGroup.LayoutParams teamParams = teamname_backside.getLayoutParams();
@@ -187,7 +202,7 @@ public class MainActivity extends AppCompatActivity {
         int cardDuration = 700;
         member.animate()
                 .setDuration(cardDuration)
-                .translationY((int)(DisplayHelper.getHeight(mContext)*0.4)+DisplayHelper.dpToPx(27+mem_id*50,mContext))
+                .translationY((int) (DisplayHelper.getHeight(mContext) * 0.4) + DisplayHelper.dpToPx(50 + mem_id * 50, mContext))
                 .setInterpolator(new AnticipateOvershootInterpolator(1));
     }
 
@@ -195,13 +210,20 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed(){
         if(numOnScreenMembers>0){
-            member[numOnScreenMembers-1].animate()
+            numOnScreenMembers--;
+            member[numOnScreenMembers].animate()
                     .translationY(DisplayHelper.getHeight(mContext))
                     .setInterpolator(new AnticipateInterpolator(1))
                     .setDuration(500);
-            ((TextView)member[numOnScreenMembers-1].getChildAt(0)).setText("");
-            ((TextView) member[numOnScreenMembers - 1].getChildAt(1)).setText("");
-            numOnScreenMembers--;
+            ((TextView) member[numOnScreenMembers].getChildAt(0)).setText("");
+            ((TextView) member[numOnScreenMembers].getChildAt(1)).setText("");
+            if(numOnScreenMembers==0){
+                addmember.animate()
+                        .alpha(1.0f)
+                        .setDuration(500)
+                        .setInterpolator(new AccelerateDecelerateInterpolator())
+                        .start();
+            }
             if(numOnScreenMembers<2)
                 registerPopOut();
         }
@@ -247,7 +269,12 @@ public class MainActivity extends AppCompatActivity {
                 ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(teamname_backside.getWindowToken(), 0);
 
                 if(numOnScreenMembers==0){
-                    getCard(member[0],0);
+                    addmember.animate()
+                            .alpha(0.0f)
+                            .setDuration(500)
+                            .setInterpolator(new AccelerateDecelerateInterpolator())
+                            .start();
+                    getCard(member[0], 0);
                     numOnScreenMembers++;
                 }
 
@@ -319,7 +346,7 @@ public class MainActivity extends AppCompatActivity {
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
-
+                            requestsent=false;
                             try {
                                 JSONObject jsonObject=new JSONObject(response);
                                 if(jsonObject.getInt("RESPONSE_SUCCESS")==1){
@@ -345,7 +372,7 @@ public class MainActivity extends AppCompatActivity {
                     }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError volleyError) {
-
+                            requestsent=false;
                             // Error handling
                             volleyError.printStackTrace();
 
@@ -356,11 +383,10 @@ public class MainActivity extends AppCompatActivity {
                                 e.printStackTrace();
                             }
                             if(volleyError instanceof NoConnectionError) {
-                                onSuccess();
+                                errorSnack(R.string.error_noInternet);
                             }
 
                             else if(statusCode==500 ) {
-
                                 errorSnack(R.string.error_serverError);
                             }
                         }
@@ -386,11 +412,15 @@ public class MainActivity extends AppCompatActivity {
                     };
 
             // Add the request to the queue
-            Volley.newRequestQueue(this).add(stringRequest);
+            if(!requestsent){
+                requestsent=true;
+                Volley.newRequestQueue(this).add(stringRequest);
+            }
     }
 
     //Dispalys Success message
     public void onSuccess(){
+        tickReveal();
         int numOnScreenMembersTemp=numOnScreenMembers;
         for(int i=0;i<numOnScreenMembersTemp;i++)onBackPressed();
         teamname_backside.setText(R.string.teamnameStub);
@@ -466,5 +496,68 @@ public class MainActivity extends AppCompatActivity {
                 .setInterpolator(new OvershootInterpolator());
     }
 
+    public void tickReveal(){
+        int cx = mRevealView.getWidth()/2;
 
+        int cy = DisplayHelper.getHeight(mContext);
+
+        int radius = Math.max(mRevealView.getWidth(), mRevealView.getHeight());
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+
+
+            final SupportAnimator tickAnimator =
+                    ViewAnimationUtils.createCircularReveal(mRevealView, cx, cy, 0, radius);
+            tickAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
+            tickAnimator.setDuration(800);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    SupportAnimator animator_reverse = tickAnimator.reverse();
+                    animator_reverse.addListener(new SupportAnimator.AnimatorListener() {
+                        @Override
+                        public void onAnimationStart() {
+
+                        }
+
+                        @Override
+                        public void onAnimationEnd() {
+                            mRevealView.setVisibility(View.INVISIBLE);
+                        }
+
+                        @Override
+                        public void onAnimationCancel() {
+
+                        }
+
+                        @Override
+                        public void onAnimationRepeat() {
+
+                        }
+                    });
+                    animator_reverse.start();
+                }
+            }, 4000);
+
+                mRevealView.setVisibility(View.VISIBLE);
+                tickAnimator.start();
+        } else {
+                Animator anim = android.view.ViewAnimationUtils.createCircularReveal(mRevealView, mRevealView.getWidth()/2, mRevealView.getHeight(), 0, DisplayHelper.getHeight(mContext));
+                mRevealView.setVisibility(View.VISIBLE);
+                anim.start();
+                anim.addListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animator) {
+                        Animator anim = android.view.ViewAnimationUtils.createCircularReveal(mRevealView, mRevealView.getWidth()/2, mRevealView.getHeight(), DisplayHelper.getHeight(mContext), 0);
+                        anim.addListener(new AnimatorListenerAdapter() {
+                            @Override
+                            public void onAnimationEnd(Animator animator) {
+                                mRevealView.setVisibility(View.INVISIBLE);
+                            }
+                        });
+                        anim.setStartDelay(3000);
+                        anim.start();
+                }});
+            }
+        }
 }

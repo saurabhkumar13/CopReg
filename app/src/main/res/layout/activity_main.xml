@@ -9,6 +9,21 @@
     tools:context="in.sarthy.solmate.profile">
     <include layout="@layout/content_main"/>
 
+    <io.codetail.widget.RevealFrameLayout
+        android:layout_width="match_parent"
+        android:elevation="0dp"
+        android:layout_height="match_parent">
+
+        <pl.droidsonroids.gif.GifImageView
+            android:id="@+id/tick"
+            android:layout_gravity="bottom"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#33CDBB"
+            android:visibility="invisible"
+            android:src="@drawable/tick"
+            />
+    </io.codetail.widget.RevealFrameLayout>
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
@@ -19,5 +34,4 @@
         app:backgroundTint="@color/Accents700"
         app:borderWidth="0dp"
         app:elevation="10dp" />
-
 </android.support.design.widget.CoordinatorLayout>

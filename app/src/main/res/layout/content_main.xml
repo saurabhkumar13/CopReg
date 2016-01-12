@@ -5,6 +5,20 @@
     android:layout_height="match_parent"
     tools:context="com.thefallen.copreg.MainActivity">
 
+    <TextView
+        android:id="@+id/addmember"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="16dp"
+        android:paddingTop="8dp"
+        android:gravity="center"
+        android:paddingBottom="8dp"
+        android:layout_margin="8dp"
+        android:text="@string/addmember"
+        android:background="@drawable/round_rect_shape"
+        android:textColor="@color/Primary200"
+        android:textSize="14sp"
+        />
     <FrameLayout
         android:id="@+id/splashScreen"
         android:layout_width="match_parent"
@@ -33,7 +47,6 @@
             android:paddingRight="60dp"
             android:text="@string/teamnameStub"
             android:textColor="#F39200"
-            android:textIsSelectable="false"
             android:textSize="30sp" />
 
         <EditText
@@ -49,7 +62,6 @@
             android:paddingRight="60dp"
             android:text="@string/teamnameStub"
             android:textColor="#B46F06"
-            android:textIsSelectable="false"
             android:textSize="30sp" />
 
         <EditText
@@ -65,7 +77,6 @@
             android:paddingRight="60dp"
             android:text="@string/teamnameStub"
             android:textColor="#FFAD33"
-            android:textIsSelectable="false"
             android:textSize="30sp" />
 
     </FrameLayout>
@@ -106,6 +117,6 @@
         android:textColor="@color/Accents50"
         android:textSize="12dp"
         />
-    <!--android:visibility="invisible"-->
+
 </FrameLayout>
 

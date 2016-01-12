@@ -5,6 +5,7 @@
     <string name="error_noInternet">Check your Internet Connection</string>
     <string name="error_serverError">Internal Server Error</string>
     <string name="teamnameStub">#YOUR TEAM NAME HERE</string>
+    <string name="addmember">Tap plus to add Member</string>
     <string name="registertwo">You can register now with two teammates or add another</string>
     <string name="successMessage">Successfully Registered!</string>
     <string name="url">http://agni.iitd.ernet.in/cop290/assign0/register/</string>
