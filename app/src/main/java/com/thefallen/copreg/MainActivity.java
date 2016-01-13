@@ -45,6 +45,10 @@ import io.codetail.animation.SupportAnimator;
 import io.codetail.animation.ViewAnimationUtils;
 import pl.droidsonroids.gif.GifImageView;
 
+// This as per the name is the Main Activity.Everything that the user does or sees is handled in this file.
+// Functions : onCreate,setLayoutParams,setTypeface,splashAnimate, getCard, onBackPressed, registerOnClick, fabClick
+// callApi, onSuccess, errorSnack, fabPop, registerPopIn, registerPopOut, tickReveal.
+
 public class MainActivity extends AppCompatActivity {
 
     //Declarations of views buttons contexts, etc.

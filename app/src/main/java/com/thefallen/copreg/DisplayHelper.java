@@ -5,11 +5,13 @@ import android.util.DisplayMetrics;
 
 /**
  * Created by mayank on 10/01/16.
+ * Helper class to help with the calculations regarding layout parameters on the screen.
+ * Functions : dpToPx, getHeight
  */
 public class DisplayHelper {
 
-    //http://stackoverflow.com/questions/8309354/formula-px-to-dp-dp-to-px-android
     //converts dp into pixels
+    //http://stackoverflow.com/questions/8309354/formula-px-to-dp-dp-to-px-android
 
     public static int dpToPx(int dp, Context mContext) {
 
