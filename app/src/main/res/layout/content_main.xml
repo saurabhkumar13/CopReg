@@ -1,8 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
 This is the main layout file that defines the views that appear initially on the splash screen and then on the screen after that.
 Also this places the gifs in the screen layout
 -->
-<?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"

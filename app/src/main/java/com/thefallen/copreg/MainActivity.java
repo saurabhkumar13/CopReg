@@ -320,7 +320,7 @@ public class MainActivity extends AppCompatActivity {
 
         for (int i=0;i<dataName.size();i++)
         {
-            if(dataName.get(i).equals("")||!dataName.get(i).matches("[A-z ]+"))
+            if(dataName.get(i).equals("")||!dataName.get(i).matches("[A-z .]+"))
             {
                 errorSnack(R.string.error_name);
                 return false;
@@ -341,8 +341,69 @@ public class MainActivity extends AppCompatActivity {
 
                 return false;
             }
+
+            else if(!checkDep(dataEntryNo.get(i).substring(4,7)))
+            {
+                errorSnack(R.string.error_entry);
+
+                return false;
+            }
+
+            else if(!checkYear(dataEntryNo.get(i).substring(0,4)))
+            {
+                errorSnack(R.string.error_entry);
+
+                return false;
+            }
+
+
         }
         return true;
+    }
+
+    //Validates the department code in the entry number
+
+    boolean checkDep(String mid3)
+    {
+        mid3.toLowerCase();
+
+        if(mid3.substring(2).matches("[0-9]"))
+        {
+            if (mid3.contentEquals("bb1")
+                    || mid3.contentEquals("ch1")
+                    || mid3.contentEquals("cs1")
+                    || mid3.contentEquals("ce1")
+                    || mid3.contentEquals("ee1")
+                    || mid3.contentEquals("ee3")
+                    || mid3.contentEquals("mt1")
+                    || mid3.contentEquals("me1")
+                    || mid3.contentEquals("me2")
+                    || mid3.contentEquals("ph1")
+                    || mid3.contentEquals("tt1")
+                    || mid3.contentEquals("bb5")
+                    || mid3.contentEquals("ch7")
+                    || mid3.contentEquals("cs5")
+                    || mid3.contentEquals("mt6")
+                    )
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //Validates the Year in the entry number
+
+    boolean checkYear(String first4)
+    {
+        int year = Integer.parseInt(first4);
+
+        if(year <= 2014 && year >= 2004)
+        {
+            return true;
+        }
+
+        return false;
     }
 
 
