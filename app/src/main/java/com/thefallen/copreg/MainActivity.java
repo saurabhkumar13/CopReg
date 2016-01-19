@@ -454,6 +454,7 @@ public class MainActivity extends AppCompatActivity {
                                 params.put("entry" + (i + 1), memberData.get(i).getEntry_no());
                             }
                             return params;
+
                         }
 
                         @Override
@@ -477,6 +478,7 @@ public class MainActivity extends AppCompatActivity {
         int numOnScreenMembersTemp=numOnScreenMembers;
         for(int i=0;i<numOnScreenMembersTemp;i++)onBackPressed();
         teamname_backside.setText(R.string.teamnameStub);
+        teamNameEdited = false;
         final Snackbar snackBar = Snackbar.make(member[0], getResources().getString(R.string.successMessage), Snackbar.LENGTH_LONG);
 
         snackBar.setActionTextColor(getResources().getColor(R.color.colorAccent))
