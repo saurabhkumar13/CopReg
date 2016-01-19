@@ -30,6 +30,7 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
@@ -363,27 +364,22 @@ public class MainActivity extends AppCompatActivity {
     boolean checkDep(String mid3)
     {
         mid3 = mid3.toLowerCase();
-
-        if(mid3.substring(2).matches("[0-9]"))
-        {
-            return mid3.contentEquals("bb1")
-                    || mid3.contentEquals("ch1")
-                    || mid3.contentEquals("cs1")
-                    || mid3.contentEquals("ce1")
-                    || mid3.contentEquals("ee1")
-                    || mid3.contentEquals("ee3")
-                    || mid3.contentEquals("mt1")
-                    || mid3.contentEquals("me1")
-                    || mid3.contentEquals("me2")
-                    || mid3.contentEquals("ph1")
-                    || mid3.contentEquals("tt1")
-                    || mid3.contentEquals("bb5")
-                    || mid3.contentEquals("ch7")
-                    || mid3.contentEquals("cs5")
-                    || mid3.contentEquals("mt6");
-        }
-
-        return true;
+        return !mid3.substring(2).matches("[0-9]")
+                || mid3.contentEquals("bb1")
+                || mid3.contentEquals("ch1")
+                || mid3.contentEquals("cs1")
+                || mid3.contentEquals("ce1")
+                || mid3.contentEquals("ee1")
+                || mid3.contentEquals("ee3")
+                || mid3.contentEquals("mt1")
+                || mid3.contentEquals("me1")
+                || mid3.contentEquals("me2")
+                || mid3.contentEquals("ph1")
+                || mid3.contentEquals("tt1")
+                || mid3.contentEquals("bb5")
+                || mid3.contentEquals("ch7")
+                || mid3.contentEquals("cs5")
+                || mid3.contentEquals("mt6");
     }
 
     //Validates the Year in the entry number
@@ -437,18 +433,11 @@ public class MainActivity extends AppCompatActivity {
                             // Error handling
                             volleyError.printStackTrace();
 
-                            int statusCode=200;
-                            try{
-                                statusCode=volleyError.networkResponse.statusCode;
-                            }catch (Exception e ){
-                                e.printStackTrace();
-                            }
                             if(volleyError instanceof NoConnectionError) {
                                 errorSnack(R.string.error_noInternet);
                             } else if (volleyError instanceof TimeoutError) {
-                                errorSnack(R.string.error_noInternet);
-                            }
-                            else if(statusCode==500 ) {
+                                errorSnack(R.string.error_timeOut);
+                            } else if (volleyError instanceof ServerError) {
                                 errorSnack(R.string.error_serverError);
                             }
                         }
@@ -565,7 +554,7 @@ public class MainActivity extends AppCompatActivity {
         // for API < 21 Android ViewAnimationsUtils circular reveal is not supported
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             final SupportAnimator tickAnimator =
-                    ViewAnimationUtils.createCircularReveal(onSuccessGIF, onSuccessGIF.getWidth(), DisplayHelper.getHeight(mContext), 0, onSuccessGIF.getHeight());
+                    ViewAnimationUtils.createCircularReveal(onSuccessGIF, onSuccessGIF.getWidth() / 2, DisplayHelper.getHeight(mContext), 0, onSuccessGIF.getHeight());
             tickAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
             tickAnimator.setDuration(800);
 
