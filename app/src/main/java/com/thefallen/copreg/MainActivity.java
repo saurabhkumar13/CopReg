@@ -252,14 +252,12 @@ public class MainActivity extends AppCompatActivity {
         submit_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ArrayList<String> dataName = new ArrayList<>();
-                ArrayList<String> dataEntryNo = new ArrayList<>();
+                ArrayList<MemberData> memberData = new ArrayList<>();
                 for (int i = 0; i < numOnScreenMembers; i++) {
-                    dataName.add(((EditText) member[i].getChildAt(0)).getText().toString());
-                    dataEntryNo.add(((EditText) member[i].getChildAt(1)).getText().toString());
+                    memberData.add(new MemberData(((EditText) member[i].getChildAt(0)).getText().toString(), ((EditText) member[i].getChildAt(1)).getText().toString()));
                 }
-                if (VerifyData(teamname_backside.getText().toString(), dataName, dataEntryNo)) {
-                    callApi(teamname_backside.getText().toString(), dataName, dataEntryNo);
+                if (VerifyData(teamname_backside.getText().toString(), memberData)) {
+                    callApi(teamname_backside.getText().toString(), memberData);
                 }
             }
         });
@@ -311,45 +309,43 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //Checks for validity of the entry number
-    public boolean VerifyData(String teamName, ArrayList<String> dataName, ArrayList<String> dataEntryNo)
+    public boolean VerifyData(String teamName, ArrayList<MemberData> memberData)
     {
         if (teamName.equals("") || teamName.charAt(0) == '#') {
             errorSnack(R.string.error_team_name);
             return false;
         }
-
-        for (int i=0;i<dataName.size();i++)
+        String name, entry_no;
+        for (int i = 0; i < memberData.size(); i++)
         {
-            if(dataName.get(i).equals("")||!dataName.get(i).matches("[A-z .]+"))
+            name = memberData.get(i).getName();
+            entry_no = memberData.get(i).getEntry_no();
+            if (name.equals("") || !name.matches("[A-z .]+"))
             {
                 errorSnack(R.string.error_name);
                 return false;
             }
 
-            if(dataEntryNo.get(i).length()!=11
+            if (entry_no.length() != 11
                     ||
-                    !dataEntryNo.get(i).substring(0,4).matches("[0-9]+")
+                    !entry_no.substring(0, 4).matches("[0-9]+")
                     ||
-                    !dataEntryNo.get(i).substring(4,6).matches("[A-z]+")
+                    !entry_no.substring(4, 6).matches("[A-z]+")
                     ||
-                    !dataEntryNo.get(i).substring(6,7).matches("^[a-zA-Z0-9]*$")
+                    !entry_no.substring(6, 7).matches("^[a-zA-Z0-9]*$")
                     ||
-                    !dataEntryNo.get(i).substring(7,11).matches("[0-9]+")
+                    !entry_no.substring(7, 11).matches("[0-9]+")
                     )
             {
                 errorSnack(R.string.error_entry);
 
                 return false;
-            }
-
-            else if(!checkDep(dataEntryNo.get(i).substring(4,7)))
+            } else if (!checkDep(entry_no.substring(4, 7)))
             {
                 errorSnack(R.string.error_entry);
 
                 return false;
-            }
-
-            else if(!checkYear(dataEntryNo.get(i).substring(0,4)))
+            } else if (!checkYear(entry_no.substring(0, 4)))
             {
                 errorSnack(R.string.error_entry);
 
@@ -365,7 +361,7 @@ public class MainActivity extends AppCompatActivity {
 
     boolean checkDep(String mid3)
     {
-        mid3.toLowerCase();
+        mid3 = mid3.toLowerCase();
 
         if(mid3.substring(2).matches("[0-9]"))
         {
@@ -398,12 +394,8 @@ public class MainActivity extends AppCompatActivity {
     {
         int year = Integer.parseInt(first4);
 
-        if(year <= 2014 && year >= 2004)
-        {
-            return true;
-        }
+        return year <= 2014 && year >= 2000;
 
-        return false;
     }
 
 
