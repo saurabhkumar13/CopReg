@@ -2,6 +2,7 @@ package com.thefallen.copreg;
 
 /**
  * Created by root on 1/19/16.
+ * This is the classfor storing the data of each member
  */
 public class MemberData {
     private String name = "";
