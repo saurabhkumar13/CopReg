@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
     Boolean requestInQueue = false;
     int numOnScreenMembers = 0;
     Boolean backPressedTwice = false;
+    Boolean teamNameEdited = false;
     int Overshoot;
     private FloatingActionButton fab;
 
@@ -163,6 +164,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                teamNameEdited = true;
                 if (start < s.length())
                     if (s.charAt(start) == KeyEvent.KEYCODE_ENTER || s.charAt(start) == '\n') {
                         String moddedString = teamname_backside.getText().toString().substring(0, start) + teamname_backside.getText().toString().substring(start + count);
@@ -313,7 +315,7 @@ public class MainActivity extends AppCompatActivity {
     //Checks for validity of the entry number
     public boolean VerifyData(String teamName, ArrayList<MemberData> memberData)
     {
-        if (teamName.equals("") || teamName.charAt(0) == '#') {
+        if (teamName.equals("") || !teamNameEdited) {
             errorSnack(R.string.error_team_name);
             return false;
         }
