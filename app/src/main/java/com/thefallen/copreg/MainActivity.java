@@ -400,7 +400,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     //Calls the API
-    public void callApi(final String teamName, final ArrayList<String> dataName, final ArrayList<String> dataEntryNo)
+    public void callApi(final String teamName, final ArrayList<MemberData> memberData)
     {
             String url = getResources().getString(R.string.url);
 
@@ -458,10 +458,10 @@ public class MainActivity extends AppCompatActivity {
                         protected Map<String,String> getParams(){
                             Map<String,String> params = new HashMap<>();
                             params.put("teamname", teamName);
-                            for(int i=0;i<dataName.size();i++)
+                            for (int i = 0; i < memberData.size(); i++)
                             {
-                                params.put("name"+(i+1),dataName.get(i));
-                                params.put("entry"+(i+1),dataEntryNo.get(i));
+                                params.put("name" + (i + 1), memberData.get(i).getName());
+                                params.put("entry" + (i + 1), memberData.get(i).getEntry_no());
                             }
                             return params;
                         }
