@@ -4,6 +4,7 @@
     <string name="error_name">Enter a valid Name</string>
     <string name="error_entry">Enter a valid Entry Number</string>
     <string name="error_noInternet">Check your Internet Connection</string>
+    <string name="error_timeOut">Connection timed out</string>
     <string name="error_serverError">Internal Server Error</string>
     <string name="teamnameStub">#YOUR TEAM NAME HERE</string>
     <string name="addmember">Tap plus to add Member</string>

@@ -30,6 +30,7 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -365,7 +366,7 @@ public class MainActivity extends AppCompatActivity {
 
         if(mid3.substring(2).matches("[0-9]"))
         {
-            if (mid3.contentEquals("bb1")
+            return mid3.contentEquals("bb1")
                     || mid3.contentEquals("ch1")
                     || mid3.contentEquals("cs1")
                     || mid3.contentEquals("ce1")
@@ -379,13 +380,10 @@ public class MainActivity extends AppCompatActivity {
                     || mid3.contentEquals("bb5")
                     || mid3.contentEquals("ch7")
                     || mid3.contentEquals("cs5")
-                    || mid3.contentEquals("mt6")
-                    )
-            {
-                return true;
-            }
+                    || mid3.contentEquals("mt6");
         }
-        return false;
+
+        return true;
     }
 
     //Validates the Year in the entry number
@@ -447,8 +445,9 @@ public class MainActivity extends AppCompatActivity {
                             }
                             if(volleyError instanceof NoConnectionError) {
                                 errorSnack(R.string.error_noInternet);
+                            } else if (volleyError instanceof TimeoutError) {
+                                errorSnack(R.string.error_noInternet);
                             }
-
                             else if(statusCode==500 ) {
                                 errorSnack(R.string.error_serverError);
                             }
